@@ -1,0 +1,323 @@
+import React from 'react';
+import { 
+  Activity, 
+  Target, 
+  Users, 
+  TrendingUp, 
+  Building2, 
+  Stethoscope, 
+  HeartPulse,
+  Lightbulb,
+  AlertOctagon
+} from 'lucide-react';
+
+const App = () => {
+  // Data dikemaskini berdasarkan fail sumber CSV (KPAS) Pencapaian KOSPEN WOW & NHSI
+  const districtData = [
+    { name: 'Yan', total: 49.5, pkd: 26.5, hospital: 23.0, dental: 0, status: 'Cemerlang' },
+    { name: 'Bandar Baharu', total: 41.4, pkd: 41.4, hospital: 0, dental: 0, status: 'Cemerlang' },
+    { name: 'Kubang Pasu', total: 39.3, pkd: 36.6, hospital: 2.7, dental: 0, status: 'Baik' },
+    { name: 'Sik', total: 35.1, pkd: 20.0, hospital: 15.1, dental: 0, status: 'Baik' },
+    { name: 'Baling', total: 33.7, pkd: 33.7, hospital: 0, dental: 0, status: 'Baik' }, 
+    { name: 'Pendang', total: 33.6, pkd: 20.0, hospital: 13.6, dental: 0, status: 'Baik' },
+    { name: 'Kota Setar', total: 22.7, pkd: 7.7, hospital: 14.4, dental: 0.6, status: 'Sederhana' },
+    { name: 'Padang Terap', total: 21.9, pkd: 15.0, hospital: 6.9, dental: 0, status: 'Sederhana' },
+    { name: 'Kuala Muda', total: 16.8, pkd: 13.2, hospital: 3.6, dental: 0, status: 'Sederhana' },
+    { name: 'Kulim', total: 16.0, pkd: 16.0, hospital: 0, dental: 0, status: 'Sederhana' },
+    { name: 'Langkawi', total: 0.1, pkd: 0, hospital: 0.1, dental: 0, status: 'Kritikal' },
+  ];
+
+  const ptjData = [
+    { name: 'Pejabat Kesihatan Daerah (PKD)', percentage: 38.0, target: 6568, achieved: 2495, icon: <Building2 className="w-8 h-8 text-emerald-600" /> },
+    { name: 'Hospital', percentage: 13.1, target: 9706, achieved: 1273, icon: <Stethoscope className="w-8 h-8 text-blue-600" /> },
+    { name: 'Pergigian (Dental)', percentage: 2.2, target: 1435, achieved: 32, icon: <HeartPulse className="w-8 h-8 text-rose-600" /> },
+  ];
+
+  // Data baharu untuk Rajah 3 & 4 (Fokus Khas)
+  const focusDaerahData = [
+    { name: 'Langkawi', value: 0.1, color: 'bg-red-700' },
+    { name: 'Kulim', value: 16.0, color: 'bg-red-500' },
+    { name: 'Kuala Muda', value: 16.8, color: 'bg-orange-500' },
+    { name: 'Padang Terap', value: 21.9, color: 'bg-amber-500' },
+    { name: 'Kota Setar', value: 22.7, color: 'bg-yellow-400' },
+  ];
+
+  const focusPtjData = [
+    { name: 'Pergigian', value: 2.2, color: 'bg-rose-600' },
+    { name: 'Hospital', value: 13.1, color: 'bg-blue-600' },
+  ];
+
+  const getStatusColor = (status) => {
+    switch(status) {
+      case 'Cemerlang': return 'bg-emerald-100 text-emerald-800 border border-emerald-200';
+      case 'Baik': return 'bg-teal-100 text-teal-800 border border-teal-200';
+      case 'Sederhana': return 'bg-amber-100 text-amber-800 border border-amber-200';
+      case 'Kritikal': return 'bg-rose-100 text-rose-800 border border-rose-200';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-50 font-sans p-4 md:p-8">
+      <div className="max-w-6xl mx-auto space-y-6">
+        
+        {/* Header Section */}
+        <header className="bg-gradient-to-r from-blue-900 to-blue-700 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
+          <div className="absolute top-0 right-0 opacity-10 pointer-events-none">
+            <Activity className="w-64 h-64 -mt-10 -mr-10" />
+          </div>
+          <div className="relative z-10">
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">Prestasi KOSPEN WOW Kedah</h1>
+            <p className="text-blue-100 text-lg md:text-xl mb-6">Analisis Saringan Kesihatan Pekerja | Suku Pertama 2026</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+              
+              <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/20">
+                <div className="flex items-center gap-3 mb-2">
+                  <Activity className="text-purple-300 w-5 h-5" />
+                  <span className="font-semibold text-blue-100 text-sm">Keseluruhan NHSI</span>
+                </div>
+                <div className="flex items-end gap-2">
+                  <div className="text-3xl font-bold text-purple-300">22.9%</div>
+                </div>
+                <div className="text-xs text-blue-200 mt-1">37,169 / 162,204 Saringan</div>
+              </div>
+
+              <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/20">
+                <div className="flex items-center gap-3 mb-2">
+                  <Target className="text-blue-200 w-5 h-5" />
+                  <span className="font-semibold text-blue-100 text-sm">Sasaran KOSPEN WOW</span>
+                </div>
+                <div className="text-3xl font-bold">16,290</div>
+                <div className="text-xs text-blue-200 mt-1">Pekerja untuk disaring</div>
+              </div>
+              
+              <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/20">
+                <div className="flex items-center gap-3 mb-2">
+                  <Users className="text-emerald-300 w-5 h-5" />
+                  <span className="font-semibold text-blue-100 text-sm">Pencapaian Semasa</span>
+                </div>
+                <div className="text-3xl font-bold text-emerald-300">3,797</div>
+                <div className="text-xs text-blue-200 mt-1">Saringan WOW dilakukan</div>
+              </div>
+
+              <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm border border-white/20 relative overflow-hidden">
+                <div className="flex items-center gap-3 mb-2">
+                  <TrendingUp className="text-yellow-300 w-5 h-5" />
+                  <span className="font-semibold text-blue-100 text-sm">Kadar KOSPEN WOW</span>
+                </div>
+                <div className="flex items-end gap-2">
+                  <div className="text-3xl font-bold text-yellow-300">23.3%</div>
+                  <div className="text-xs text-blue-200 mb-1">/ 25% (Q1)</div>
+                </div>
+                <div className="w-full bg-blue-950/50 h-2 rounded-full mt-3">
+                  <div className="bg-yellow-400 h-2 rounded-full" style={{ width: '23.3%' }}></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          {/* Left Column: District Performance (Stacked Bar Chart - APA FORMAT) */}
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            
+            {/* Label Format APA */}
+            <div className="mb-6">
+              <div className="font-bold text-slate-900 text-lg">Rajah 1</div>
+              <div className="italic text-slate-800 text-base">Prestasi Pencapaian Saringan KOSPEN WOW Mengikut Daerah dan Kategori PTJ</div>
+            </div>
+
+            {/* Legend */}
+            <div className="flex gap-5 mb-5 text-sm text-slate-700 font-medium">
+              <div className="flex items-center gap-2"><span className="w-4 h-4 rounded-sm bg-emerald-600 shadow-sm"></span> PKD</div>
+              <div className="flex items-center gap-2"><span className="w-4 h-4 rounded-sm bg-blue-600 shadow-sm"></span> Hospital</div>
+              <div className="flex items-center gap-2"><span className="w-4 h-4 rounded-sm bg-rose-600 shadow-sm"></span> Pergigian</div>
+            </div>
+            
+            <div className="space-y-6">
+              {districtData.map((district, index) => (
+                <div key={index} className="flex flex-col gap-2 group">
+                  <div className="flex justify-between items-center text-sm">
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-slate-800">{district.name}</span>
+                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${getStatusColor(district.status)}`}>
+                        {district.status}
+                      </span>
+                    </div>
+                    <span className="font-extrabold text-slate-900 text-base">{district.total}%</span>
+                  </div>
+                  
+                  {/* Stacked Bar Container */}
+                  <div className="w-full bg-slate-100 h-8 rounded-lg overflow-hidden flex relative shadow-inner border border-slate-200">
+                    {district.pkd > 0 && (
+                      <div 
+                        className="h-full bg-emerald-600 transition-all duration-500 border-r border-emerald-800/20 flex items-center justify-center"
+                        style={{ width: `${(district.pkd / 100) * 100}%` }}
+                        title={`PKD: ${district.pkd}%`}
+                      >
+                        {district.pkd >= 4 && <span className="text-white font-bold text-xs px-1 drop-shadow-md">{district.pkd}%</span>}
+                      </div>
+                    )}
+                    {district.hospital > 0 && (
+                      <div 
+                        className="h-full bg-blue-600 transition-all duration-500 border-r border-blue-800/20 flex items-center justify-center"
+                        style={{ width: `${(district.hospital / 100) * 100}%` }}
+                        title={`Hospital: ${district.hospital}%`}
+                      >
+                        {district.hospital >= 4 && <span className="text-white font-bold text-xs px-1 drop-shadow-md">{district.hospital}%</span>}
+                      </div>
+                    )}
+                    {district.dental > 0 && (
+                      <div 
+                        className="h-full bg-rose-600 transition-all duration-500 flex items-center justify-center"
+                        style={{ width: `${(district.dental / 100) * 100}%` }}
+                        title={`Pergigian: ${district.dental}%`}
+                      >
+                        {district.dental >= 4 && <span className="text-white font-bold text-xs px-1 drop-shadow-md">{district.dental}%</span>}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Format Nota APA */}
+            <div className="mt-8 text-sm text-slate-700 leading-relaxed">
+              <span className="italic">Nota.</span> Peratusan di dalam carta palang mewakili sumbangan pencapaian oleh setiap Pusat Tanggungjawab (PTJ). Carta palang diwarnakan hijau untuk PKD, biru untuk Hospital, dan merah untuk Pergigian. Data diolah sepenuhnya daripada rekod KOSPEN WOW Suku Pertama 2026.
+            </div>
+          </div>
+
+          {/* Right Column: PTJ & Strategies */}
+          <div className="space-y-6">
+            
+            {/* PTJ Performance (APA Style Labeling) */}
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+              
+              <div className="mb-6">
+                <div className="font-bold text-slate-900 text-lg">Rajah 2</div>
+                <div className="italic text-slate-800 text-base">Analisis Prestasi Mengikut Kategori Pusat Tanggungjawab (PTJ)</div>
+              </div>
+              
+              <div className="space-y-5">
+                {ptjData.map((ptj, index) => (
+                  <div key={index} className="flex flex-col p-4 rounded-xl border border-slate-200 bg-slate-50 shadow-sm">
+                    <div className="flex items-center gap-4 mb-3">
+                      <div className="p-2 bg-white rounded-lg shadow-sm border border-slate-100">
+                        {ptj.icon}
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-bold text-slate-800 text-base">{ptj.name}</h3>
+                        <span className="text-sm font-medium text-slate-600">Saringan Dicapai: {ptj.achieved} / {ptj.target}</span>
+                      </div>
+                      <div className="text-2xl font-extrabold text-slate-900">
+                        {ptj.percentage}%
+                      </div>
+                    </div>
+                    {/* Thicker single bar with number */}
+                    <div className="w-full bg-slate-200 h-6 rounded-lg overflow-hidden border border-slate-300 relative">
+                      <div 
+                        className={`h-full flex items-center justify-end pr-2 rounded-l-lg transition-all ${index === 0 ? 'bg-emerald-600' : index === 1 ? 'bg-blue-600' : 'bg-rose-600'}`}
+                        style={{ width: `${ptj.percentage}%` }}
+                      >
+                        {ptj.percentage >= 5 && <span className="text-white font-bold text-xs drop-shadow-md">{ptj.percentage}%</span>}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* FOKUS KHAS: DIPISAHKAN KEPADA 2 CARTA (RAJAH 3 & RAJAH 4) */}
+            <div className="bg-white border border-rose-200 p-6 rounded-2xl shadow-sm relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-1 h-full bg-rose-500"></div>
+              <h3 className="font-bold text-rose-800 mb-6 flex items-center gap-2 text-xl border-b border-rose-100 pb-3">
+                <AlertOctagon className="text-rose-600 w-7 h-7" /> Fokus Khas & Perhatian (Di bawah Sasaran)
+              </h3>
+              
+              {/* RAJAH 3: Daerah Kritis */}
+              <div className="mb-8">
+                <div className="font-bold text-slate-900 text-lg">Rajah 3</div>
+                <div className="italic text-slate-800 text-base mb-4">Pencapaian Daerah Kritikal dan Sederhana Berdasarkan Indeks Warna</div>
+                
+                <div className="space-y-4 mt-2">
+                  {focusDaerahData.map((daerah, idx) => (
+                    <div key={idx} className="flex items-center gap-3">
+                      <div className="w-28 text-sm font-bold text-slate-700">{daerah.name}</div>
+                      <div className="flex-1 flex items-center gap-2">
+                        <div className="flex-1 bg-slate-100 h-6 rounded-md overflow-hidden relative shadow-inner">
+                          <div 
+                            className={`h-full ${daerah.color} transition-all duration-500 rounded-md`}
+                            style={{ width: `${Math.max(daerah.value, 1)}%` }} // Minimum width for visual representation if 0.1%
+                          ></div>
+                        </div>
+                        <div className="w-12 text-right font-extrabold text-slate-900 text-sm">{daerah.value}%</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* RAJAH 4: Fasiliti Kritis */}
+              <div className="mb-6 border-t border-slate-100 pt-6">
+                <div className="font-bold text-slate-900 text-lg">Rajah 4</div>
+                <div className="italic text-slate-800 text-base mb-4">Pencapaian Fasiliti (PTJ) yang Memerlukan Bimbingan Rapi</div>
+                
+                <div className="space-y-4 mt-2">
+                  {focusPtjData.map((ptj, idx) => (
+                    <div key={idx} className="flex items-center gap-3">
+                      <div className="w-28 text-sm font-bold text-slate-700">{ptj.name}</div>
+                      <div className="flex-1 flex items-center gap-2">
+                        <div className="flex-1 bg-slate-100 h-6 rounded-md overflow-hidden relative shadow-inner">
+                          <div 
+                            className={`h-full ${ptj.color} transition-all duration-500 rounded-md`}
+                            style={{ width: `${ptj.value}%` }}
+                          ></div>
+                        </div>
+                        <div className="w-12 text-right font-extrabold text-slate-900 text-sm">{ptj.value}%</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Nota Rajah 3 & 4 (Format APA) */}
+              <div className="mt-4 text-sm text-slate-700 leading-relaxed border-t border-rose-100 pt-4">
+                <span className="italic">Nota.</span> Rajah 3 menunjukkan taburan rona warna dari merah pekat (paling rendah) hingga kuning (hampir sederhana) mewakili status saringan mengikut daerah di bawah paras 25%. Rajah 4 memaparkan warna rasmi institusi PTJ bagi mengenal pasti fasiliti di bawah sasaran suku tahun pertama. 
+              </div>
+
+              <div className="bg-rose-50 p-4 rounded-lg border border-rose-100 mt-6 shadow-sm">
+                <p className="text-sm text-rose-900 leading-relaxed font-semibold italic">
+                  "Buat pasukan di daerah dan fasiliti di atas — jangan patah semangat! Cabaran anda mungkin berbeza, tetapi potensi anda amat besar. Mari kita semak semula strategi, dan tingkatkan pencapaian secara berperingkat."
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Strategies Section */}
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+          <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center justify-center md:justify-start gap-2">
+            <Lightbulb className="text-amber-500 w-6 h-6" /> Cadangan Penambahbaikan Strategik
+          </h2>
+          
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-600 p-6 md:p-8 rounded-r-2xl shadow-sm">
+            <p className="text-blue-900 leading-relaxed text-base md:text-lg text-center md:text-left">
+              <span className="font-extrabold text-blue-800 block mb-4 text-xl md:text-2xl">Satu pasukan, satu matlamat! 🌟</span> 
+              Setiap saringan yang dijalankan adalah satu langkah murni dalam memelihara kesihatan warga pekerja kita. Tahniah atas komitmen luar biasa anda semua setakat ini. Buat daerah yang cemerlang, mari kita panjangkan bantuan membimbing rakan-rakan lain. Buat pasukan di Langkawi dan fasiliti Pergigian, jangan putus asa! Teruskan usaha secara berperingkat, kami sentiasa menyokong anda. Bersama-sama, kita pasti boleh capai sasaran!
+            </p>
+          </div>
+        </div>
+
+        <footer className="text-center text-slate-500 text-sm mt-8 pb-4 font-medium">
+          Analisa KOSPEN WOW Suku Pertama 2026 • Unit KPAS Jabatan Kesihatan Negeri Kedah
+        </footer>
+
+      </div>
+    </div>
+  );
+};
+
+export default App;
